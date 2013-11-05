@@ -1,0 +1,11 @@
+XC8_PATH=C:\Program Files\Microchip\xc8\v1.20
+MCU=18F13k50
+CC=picc18
+INCDIR=-I"$(XC8_PATH)\include"
+INCDIR+= -I../common 
+INCDIR+= -I. 
+
+CFLAGS=--chip=$(MCU) $(INCDIR) -V
+
+all:
+	$(CC) $(CFLAGS) rf-node-lp-tx-only.c ../common/sensornet.c

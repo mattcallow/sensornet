@@ -1,0 +1,155 @@
+   1               		.file	"task.c"
+   2               	__SREG__ = 0x3f
+   3               	__SP_H__ = 0x3e
+   4               	__SP_L__ = 0x3d
+   5               	__CCP__ = 0x34
+   6               	__tmp_reg__ = 0
+   7               	__zero_reg__ = 1
+  15               	.Ltext0:
+  16               	.global	task_loop
+  18               	task_loop:
+  19               	.LFB3:
+  20               	.LM1:
+  21 0000 0F93      		push r16
+  22 0002 1F93      		push r17
+  23 0004 CF93      		push r28
+  24 0006 DF93      		push r29
+  25 0008 00C0      		rjmp .L10
+  26               	/* prologue: function */
+  27               	/* frame size = 0 */
+  28               	/* stack size = 4 */
+  29               	.L__stack_usage = 4
+  30               	.LVL0:
+  31               	.L7:
+  32               	.LBB5:
+  33               	.LM2:
+  34 000a CE01      		movw r24,r28
+  35 000c 6BE0      		ldi r22,lo8(11)
+  36 000e 70E0      		ldi r23,hi8(11)
+  37 0010 00D0      		rcall __mulhi3
+  38 0012 FC01      		movw r30,r24
+  39 0014 E050      		subi r30,lo8(-(task_list))
+  40 0016 F040      		sbci r31,hi8(-(task_list))
+  41 0018 8081      		ld r24,Z
+  42 001a 9181      		ldd r25,Z+1
+  43 001c A281      		ldd r26,Z+2
+  44 001e B381      		ldd r27,Z+3
+  45 0020 0097      		sbiw r24,0
+  46 0022 A105      		cpc r26,__zero_reg__
+  47 0024 B105      		cpc r27,__zero_reg__
+  48 0026 01F4      		brne .L3
+  49               	.LM3:
+  50 0028 8481      		ldd r24,Z+4
+  51 002a 9581      		ldd r25,Z+5
+  52 002c A681      		ldd r26,Z+6
+  53 002e B781      		ldd r27,Z+7
+  54 0030 0097      		sbiw r24,0
+  55 0032 A105      		cpc r26,__zero_reg__
+  56 0034 B105      		cpc r27,__zero_reg__
+  57 0036 01F0      		breq .L4
+  58               	.L3:
+  59               	.LM4:
+  60 0038 00D0      		rcall seconds
+  61 003a 8B01      		movw r16,r22
+  62 003c 9C01      		movw r18,r24
+  63 003e CE01      		movw r24,r28
+  64 0040 6BE0      		ldi r22,lo8(11)
+  65 0042 70E0      		ldi r23,hi8(11)
+  66 0044 00D0      		rcall __mulhi3
+  67 0046 FC01      		movw r30,r24
+  68 0048 E050      		subi r30,lo8(-(task_list))
+  69 004a F040      		sbci r31,hi8(-(task_list))
+  70 004c 8081      		ld r24,Z
+  71 004e 9181      		ldd r25,Z+1
+  72 0050 A281      		ldd r26,Z+2
+  73 0052 B381      		ldd r27,Z+3
+  74 0054 0817      		cp r16,r24
+  75 0056 1907      		cpc r17,r25
+  76 0058 2A07      		cpc r18,r26
+  77 005a 3B07      		cpc r19,r27
+  78 005c 00F0      		brlo .L4
+  79               	.LM5:
+  80 005e 2481      		ldd r18,Z+4
+  81 0060 3581      		ldd r19,Z+5
+  82 0062 4681      		ldd r20,Z+6
+  83 0064 5781      		ldd r21,Z+7
+  84 0066 2115      		cp r18,__zero_reg__
+  85 0068 3105      		cpc r19,__zero_reg__
+  86 006a 4105      		cpc r20,__zero_reg__
+  87 006c 5105      		cpc r21,__zero_reg__
+  88 006e 01F4      		brne .L5
+  89               	.LM6:
+  90 0070 1082      		st Z,__zero_reg__
+  91 0072 1182      		std Z+1,__zero_reg__
+  92 0074 1282      		std Z+2,__zero_reg__
+  93 0076 1382      		std Z+3,__zero_reg__
+  94 0078 00C0      		rjmp .L6
+  95               	.L5:
+  96               	.LM7:
+  97 007a 820F      		add r24,r18
+  98 007c 931F      		adc r25,r19
+  99 007e A41F      		adc r26,r20
+ 100 0080 B51F      		adc r27,r21
+ 101 0082 8083      		st Z,r24
+ 102 0084 9183      		std Z+1,r25
+ 103 0086 A283      		std Z+2,r26
+ 104 0088 B383      		std Z+3,r27
+ 105               	.L6:
+ 106               	.LM8:
+ 107 008a CE01      		movw r24,r28
+ 108 008c 6BE0      		ldi r22,lo8(11)
+ 109 008e 70E0      		ldi r23,hi8(11)
+ 110 0090 00D0      		rcall __mulhi3
+ 111 0092 DC01      		movw r26,r24
+ 112 0094 A050      		subi r26,lo8(-(task_list))
+ 113 0096 B040      		sbci r27,hi8(-(task_list))
+ 114 0098 1896      		adiw r26,8
+ 115 009a ED91      		ld r30,X+
+ 116 009c FC91      		ld r31,X
+ 117 009e 1997      		sbiw r26,8+1
+ 118 00a0 1A96      		adiw r26,10
+ 119 00a2 8C91      		ld r24,X
+ 120 00a4 0995      		icall
+ 121               	.L4:
+ 122               	.LM9:
+ 123 00a6 2196      		adiw r28,1
+ 124               	.LVL1:
+ 125               	.L9:
+ 126               	.LM10:
+ 127 00a8 8091 0000 		lds r24,num_tasks
+ 128 00ac 90E0      		ldi r25,lo8(0)
+ 129 00ae C817      		cp r28,r24
+ 130 00b0 D907      		cpc r29,r25
+ 131 00b2 04F4      		brge .+2
+ 132 00b4 00C0      		rjmp .L7
+ 133               	.LBE5:
+ 134               	.LBB6:
+ 135               	.LBB7:
+ 136               	.LM11:
+ 137 00b6 00D0      		rcall wd_sleep
+ 138               	.LVL2:
+ 139               	.L10:
+ 140               	.LBE7:
+ 141               	.LBE6:
+ 142               	.LM12:
+ 143 00b8 C0E0      		ldi r28,lo8(0)
+ 144 00ba D0E0      		ldi r29,hi8(0)
+ 145 00bc 00C0      		rjmp .L9
+ 146               	.LFE3:
+ 172               	.Letext0:
+DEFINED SYMBOLS
+                            *ABS*:00000000 task.c
+     /tmp/ccSDKEcL.s:2      *ABS*:0000003f __SREG__
+     /tmp/ccSDKEcL.s:3      *ABS*:0000003e __SP_H__
+     /tmp/ccSDKEcL.s:4      *ABS*:0000003d __SP_L__
+     /tmp/ccSDKEcL.s:5      *ABS*:00000034 __CCP__
+     /tmp/ccSDKEcL.s:6      *ABS*:00000000 __tmp_reg__
+     /tmp/ccSDKEcL.s:7      *ABS*:00000001 __zero_reg__
+     /tmp/ccSDKEcL.s:18     .text:00000000 task_loop
+
+UNDEFINED SYMBOLS
+__mulhi3
+task_list
+seconds
+num_tasks
+wd_sleep
